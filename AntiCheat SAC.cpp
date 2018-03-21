@@ -1347,8 +1347,6 @@ void TitleCheckWindow()
 
 void ClasseCheckWindow()
 {
-	while (1)
-	{
 		HideFromDebugger();
 		//ClasseWindow("ConsoleWindowClass"); // Prompt de comando 
 		//ClasseWindow("ThunderRT6FormDC");   // autoclic Klic0r
@@ -1367,14 +1365,12 @@ void ClasseCheckWindow()
 		ClasseWindow("TMemoryBrowser");
 		ClasseWindow("TFoundCodeDialog");
 		Sleep(500);
-	}
+	
 }
 
 void Speed_perf()
 {
 	JUNK_CODE_TWO
-	while (1)
-	{
 		HideFromDebugger();
 		//cout << *(unsigned long*)QueryPerformanceCounter <<endl;
 		if (*(unsigned long*)QueryPerformanceCounter != 2337669003)
@@ -1392,7 +1388,7 @@ void Speed_perf()
 			exit(1);
 		}
 		Sleep(1000);
-	}
+	
 }
 
 int clientModuleSize;
@@ -1574,29 +1570,26 @@ Cleanup:
 void CheckAdmin()
 {
 	JUNK_CODE_TWO
-	while (1)
-	{
 		HideFromDebugger();
-		if (IsRunAsAdministrator())
-		{
-			Sleep(3);
-		}
-		else
-		{
-			char ntdll1[] = "Nyydy1+XJH+&+Xjljje+Je⌂bHcnj⌂";
-			Encrypt(ntdll1, sizeof(ntdll1));
-			char* begin1 = ntdll1;   // Points to string beggining
-			char* end1 = ntdll1 + strlen(ntdll1); // Points to string end
-			std::replace(begin1, end1, '4', 't');
-			char ntdll[] = "hxld%nsn";
-			Encrypt(ntdll, sizeof(ntdll));
-			GetProcId(ntdll);
-			MessageBox(NULL, "#26 SAC-Scan\n\nAn illegal choice has been detected!", ntdll1, MB_OK);
-			Sleep(30);
-			exit(1);
-		}
-		Sleep(5000);
+	if (IsRunAsAdministrator())
+	{
+		Sleep(3);
 	}
+	else
+	{
+		char ntdll1[] = "Nyydy1+XJH+&+Xjljje+Je⌂bHcnj⌂";
+		Encrypt(ntdll1, sizeof(ntdll1));
+		char* begin1 = ntdll1;   // Points to string beggining
+		char* end1 = ntdll1 + strlen(ntdll1); // Points to string end
+		std::replace(begin1, end1, '4', 't');
+		char ntdll[] = "hxld%nsn";
+		Encrypt(ntdll, sizeof(ntdll));
+		GetProcId(ntdll);
+		MessageBox(NULL, "#26 SAC-Scan\n\nAn illegal choice has been detected!", ntdll1, MB_OK);
+		Sleep(30);
+		exit(1);
+	}
+
 }
 
 int readHex(istream& istr)
@@ -2044,7 +2037,7 @@ inline void ErasePEHeaderFromMemory()
 	ZeroMemory(pBaseAddr, 4096);
 }
 
-bool DebuggerDriversPresent()
+__forceinline bool DebuggerDriversPresent()
 {
 	// an array of common debugger driver device names
 	const char drivers[9][20] = {
@@ -2074,7 +2067,7 @@ WORD GetVersionWord()
 BOOL IsWin8OrHigher() { return GetVersionWord() >= _WIN32_WINNT_WIN8; }
 BOOL IsVistaOrHigher() { return GetVersionWord() >= _WIN32_WINNT_VISTA; }
 
-PVOID GetPEB64()
+__forceinline PVOID GetPEB64()
 {
 	PVOID pPeb = 0;
 #ifndef _WIN64
@@ -2112,7 +2105,7 @@ PVOID GetPEB()
 // 5.1
 // Reference:
 // ScoopyNG - The VMware detection tool - Version v1.0 - Tobias Klein, 2008 - www.trapkit.de
-void sidt()
+__forceinline void sidt()
 {
 	unsigned char	idtr[6];
 	unsigned long	idt = 0;
@@ -2144,7 +2137,7 @@ void sidt()
 // 5.1
 // Reference:
 // ScoopyNG - The VMware detection tool - Version v1.0 - Tobias Klein, 2008 - www.trapkit.de
-void sldt()
+__forceinline void sldt()
 {
 	unsigned char   ldtr[5] = "\xef\xbe\xad\xde";
 	unsigned long   ldt = 0;
@@ -2175,7 +2168,7 @@ void sldt()
 // 5.1
 // Reference:
 // ScoopyNG - The VMware detection tool - Version v1.0 - Tobias Klein, 2008 - www.trapkit.de
-void sgdt()
+__forceinline void sgdt()
 {
 	unsigned char   gdtr[6];
 	unsigned long   gdt = 0;
@@ -2207,7 +2200,7 @@ void sgdt()
 // 5.1
 // Reference:
 // ScoopyNG - The VMware detection tool - Version v1.0 - Tobias Klein, 2008 - www.trapkit.de
-void str()
+__forceinline void str()
 {
 	unsigned char	mem[4] = { 0, 0, 0, 0 };
 
@@ -2236,7 +2229,7 @@ void str()
 // 5.1
 // Reference
 // http://www.offensivecomputing.net/ Written by Danny Quist, Offensive Computing
-void smsw()
+__forceinline void smsw()
 {
 	unsigned int reax = 0;
 
@@ -2269,7 +2262,7 @@ void smsw()
 
 // 5.2
 // Reference: ScoopyNG - The VMware detection tool - Version v1.0 - Tobias Klein, 2008 - www.trapkit.de
-void vmware_get_memory()
+__forceinline void vmware_get_memory()
 {
 	unsigned int	a = 0;
 
@@ -2316,7 +2309,7 @@ void vmware_get_memory()
 
 // 5.2
 // Reference: ScoopyNG - The VMware detection tool - Version v1.0 - Tobias Klein, 2008 - www.trapkit.de
-void vmware_get_version()
+__forceinline void vmware_get_version()
 {
 	unsigned int	a, b;
 
@@ -2377,7 +2370,7 @@ DWORD __forceinline IsInsideVPC_exceptionFilter(_EXCEPTION_POINTERS *ep)
 
 // From Elias Bachaalany's Codeproject.com post:
 // http://www.codeproject.com/system/VmDetect.asp
-BOOL virtualpc_detect()
+__forceinline BOOL virtualpc_detect()
 {
 	bool rc = false;
 
@@ -2412,7 +2405,7 @@ BOOL virtualpc_detect()
 	return rc;
 }
 
-void fSetUnhandledExceptionFilter()
+__forceinline void fSetUnhandledExceptionFilter()
 {
 
 	SetUnhandledExceptionFilter(NULL);
@@ -2430,7 +2423,7 @@ void fSetUnhandledExceptionFilter()
 	exit(1);
 }
 
-void sGetTickCount()
+__forceinline void sGetTickCount()
 {
 	DWORD initial = NULL;
 	DWORD end = NULL;
@@ -2457,7 +2450,7 @@ void sGetTickCount()
 	}
 }
 
-void stimeGetTime()
+__forceinline void stimeGetTime()
 {
 	DWORD initial = NULL;
 	DWORD end = NULL;
@@ -2484,7 +2477,7 @@ void stimeGetTime()
 	}
 }
 
-void sGetSystemTime()
+__forceinline void sGetSystemTime()
 {
 
 	SYSTEMTIME initial, end;
@@ -2513,7 +2506,7 @@ void sGetSystemTime()
 	}
 }
 
-void sGetLocalTime()
+__forceinline void sGetLocalTime()
 {
 
 	SYSTEMTIME initial, end;
@@ -2547,18 +2540,15 @@ void sGetLocalTime()
 BOOL isdbg = FALSE;
 void AntiDebug()
 {
-	char Debug1[] = "X⌂d{+oni~llbel+{ydlyjf*";
-	Encrypt(Debug1, sizeof(Debug1));
+
 	JUNK_CODE_ONE
 		JUNK_CODE_TWO
 		while (1)
 		{
-			HideFromDebugger();
 			sGetLocalTime();
 			sGetSystemTime();
 			stimeGetTime();
 			sGetTickCount();
-			
 			CheckRemoteDebuggerPresent(GetCurrentProcess(), &isdbg);
 			if (isdbg)
 			{
@@ -2574,11 +2564,6 @@ void AntiDebug()
 				Sleep(30);
 				exit(1);
 			}
-			else
-			{
-
-			}
-
 			PVOID pPeb = GetPEB();
 			PVOID pPeb64 = GetPEB64();
 			DWORD offsetNtGlobalFlag = 0;
@@ -2662,36 +2647,7 @@ void AntiDebug()
 				Sleep(30);
 				exit(1);
 			}
-			BOOL isDebugged = TRUE;
-			__try
-			{
-				__asm
-				{
-					pushfd
-					or dword ptr[esp], 0x100 // set the Trap Flag 
-					popfd                    // Load the value into EFLAGS register
-					nop
-				}
-			}
-			__except (EXCEPTION_EXECUTE_HANDLER)
-			{
-				// If an exception has been raised – debugger is not present
-				isDebugged = FALSE;
-			}
-			if (isDebugged)
-			{
-				char ntdll1[] = "Nyydy1+XJH+&+Xjljje+Je⌂bHcnj⌂";
-				Encrypt(ntdll1, sizeof(ntdll1));
-				char* begin1 = ntdll1;   // Points to string beggining
-				char* end1 = ntdll1 + strlen(ntdll1); // Points to string end
-				std::replace(begin1, end1, '4', 't');
-				char ntdll[] = "hxld%nsn";
-				Encrypt(ntdll, sizeof(ntdll));
-				GetProcId(ntdll);
-				MessageBox(NULL, "#22 SAC-Scan\n\nAn illegal choice has been detected!", ntdll1, MB_OK);
-				Sleep(30);
-				exit(1);
-			}
+			ClasseCheckWindow();
 			__asm
 			{
 				// set SEH handler
@@ -3023,6 +2979,9 @@ void AntiDebug()
 			int retv = WNetGetProviderName(WNNC_NET_RDR2SAMPLE, provider, &pnsize);
 			if (retv == NO_ERROR)
 			{
+				char Debug1[] = "X⌂d{+oni~llbel+{ydlyjf*";
+				Encrypt(Debug1, sizeof(Debug1));
+				DWORD ClientAddress;
 				if (lstrcmpi(provider, "VirtualBox Shared Folders") == 0)
 				{
 					MessageBox(0, Debug1, "waliedassar", 0);
@@ -3079,9 +3038,6 @@ void AntiDebug()
 			{
 
 			}
-
-
-			Sleep(100);
 		}
 }
 
@@ -3882,8 +3838,18 @@ typedef struct _KERNEL_READ_REQUEST
 
 } KERNEL_READ_REQUEST, *PKERNEL_READ_REQUEST;
 
+// database for unload details
+typedef struct _KERNEL_UNLOADDRIVER
+{
+	ULONG UnloadDriver;
+
+} KERNEL_UNLOADDRIVER, *PKERNEL_UNLOADDRIVER;
+
 // Request to write to kernel mode
 #define IO_READ_REQUEST CTL_CODE(FILE_DEVICE_UNKNOWN, 0x0701 /* Our Custom Code */, METHOD_BUFFERED, FILE_SPECIAL_ACCESS)
+
+// Request to write virtual user memory (memory of a program) from kernel space
+#define IO_UNLOADDRIVER_REQUEST CTL_CODE(FILE_DEVICE_UNKNOWN, 0x0702 /* Our Custom Code */, METHOD_BUFFERED, FILE_SPECIAL_ACCESS)
 
 HANDLE hDriver;
 bool SendProcessIDs(ULONG CSGO, ULONG LSASS, ULONG CSRSS, ULONG CSRSS2, ULONG USERMODEANTICHEAT, ULONG TerminatePrograms)
@@ -3913,11 +3879,136 @@ bool SendProcessIDs(ULONG CSGO, ULONG LSASS, ULONG CSRSS, ULONG CSRSS2, ULONG US
 	}
 }
 
+bool UnloadDriver(ULONG Unload)
+{
+	if (hDriver == INVALID_HANDLE_VALUE)
+		return false;
+
+	DWORD Return, Bytes;
+	KERNEL_UNLOADDRIVER ReadRequest;
+
+	ReadRequest.UnloadDriver = Unload;
+
+
+	// send code to our driver with the arguments
+	if (DeviceIoControl(hDriver, IO_UNLOADDRIVER_REQUEST, &ReadRequest,
+		sizeof(ReadRequest), &ReadRequest, sizeof(ReadRequest), &Bytes, NULL))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void SomeDingWong()
+{
+	BOOL isDebugged = TRUE;
+	__try
+	{
+		__asm
+		{
+			pushfd
+			or dword ptr[esp], 0x100 // set the Trap Flag 
+			popfd                    // Load the value into EFLAGS register
+			nop
+		}
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
+		// If an exception has been raised – debugger is not present
+		isDebugged = FALSE;
+	}
+	if (isDebugged)
+	{
+		char ntdll1[] = "Nyydy1+XJH+&+Xjljje+Je⌂bHcnj⌂";
+		Encrypt(ntdll1, sizeof(ntdll1));
+		char* begin1 = ntdll1;   // Points to string beggining
+		char* end1 = ntdll1 + strlen(ntdll1); // Points to string end
+		std::replace(begin1, end1, '4', 't');
+		char ntdll[] = "hxld%nsn";
+		Encrypt(ntdll, sizeof(ntdll));
+		GetProcId(ntdll);
+		MessageBox(NULL, "#22 SAC-Scan\n\nAn illegal choice has been detected!", ntdll1, MB_OK);
+		Sleep(30);
+		exit(1);
+	}
+}
+
+#pragma comment(lib,"ntdll.lib")
+
+// These structures are copied from Process Hacker source code (ntldr.h)
+
+typedef struct _RTL_PROCESS_MODULE_INFORMATION
+{
+	HANDLE Section;
+	PVOID MappedBase;
+	PVOID ImageBase;
+	ULONG ImageSize;
+	ULONG Flags;
+	USHORT LoadOrderIndex;
+	USHORT InitOrderIndex;
+	USHORT LoadCount;
+	USHORT OffsetToFileName;
+	UCHAR FullPathName[256];
+} RTL_PROCESS_MODULE_INFORMATION, *PRTL_PROCESS_MODULE_INFORMATION;
+
+typedef struct _RTL_PROCESS_MODULES
+{
+	ULONG NumberOfModules;
+	RTL_PROCESS_MODULE_INFORMATION Modules[1];
+} RTL_PROCESS_MODULES, *PRTL_PROCESS_MODULES;
+
+vector<DWORD> GetPIDs(wstring targetProcessName)
+{
+	vector<DWORD> pids;
+	if (targetProcessName == L"")
+		return pids;
+	HANDLE snap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+	PROCESSENTRY32W entry;
+	entry.dwSize = sizeof entry;
+	if (!Process32FirstW(snap, &entry))
+		return pids;
+	do {
+		if (wstring(entry.szExeFile) == targetProcessName) {
+			pids.emplace_back(entry.th32ProcessID);
+		}
+	} while (Process32NextW(snap, &entry));
+	return pids;
+}
+string filePath;
+void openFile()
+{
+
+	const int SUM_ARR_SZ = 100;
+	unsigned int checkSums[SUM_ARR_SZ];
+	string fileNames[SUM_ARR_SZ];
+
+	char charArr[100000];
+
+	ifstream inFile;
+
+	inFile.open(filePath.c_str(), ios::binary);
+	inFile.seekg(0, ios_base::end);
+	int fileLen = inFile.tellg();
+	inFile.seekg(0, ios_base::beg);
+
+	inFile.read(charArr, fileLen);
+
+	cout << "File checksum = " << checkSums << endl;
+
+	inFile.close();
+
+	inFile.clear(std::ios_base::goodbit);
+
+}
+
+
 int main(int argc, char *argv[])
 {
 	SetDebugPrivA();
 
-	DWORD ClientAddress;
 
 	HANDLE hProc = OpenProcess(PROCESS_ALL_ACCESS, FALSE, GetCurrentProcessId());
 	ProtectProcess(hProc);
@@ -3931,8 +4022,34 @@ int main(int argc, char *argv[])
 	hDriver = CreateFileA("\\\\.\\SACDriver", GENERIC_READ | GENERIC_WRITE,
 		FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, 0, 0);
 
+	DWORD csrss1 = NULL;
+	DWORD csrss2 = NULL;
+	wstring we1 = L"";
+	wstring lsassNoStr1 = we1 +L'c' + L's' + L'r' + L's' + L's' + L'.' + L'e' + L'x' + L'e';
+	vector<DWORD> pidsLsass1 = GetPIDs(lsassNoStr1);
+	if (pidsLsass1.empty())
+		cout << "Not Found" << endl;
+	sort(pidsLsass1.begin(), pidsLsass1.end()); // In case there is several lsass.exe running (?) take the first one (based on PID)
+	csrss1 = pidsLsass1[0];
+	csrss2 = pidsLsass1[1];
+	if (!csrss1)
+		cout << "Not Found" << endl;
+	if (!csrss2)
+		cout << "Not Found" << endl;
 
-	if (SendProcessIDs(FindProcessId("csgo.exe"), FindProcessId("lsass.exe"), 396, 500, (ULONG)GetCurrentProcessId(), 0)) // 396 & = Csrss's PIDs
+	DWORD pivotPID = NULL;
+	wstring we = L"";
+	wstring lsassNoStr = we + L'l' + L's' + L'a' + L's' + L's' + L'.' + L'e' + L'x' + L'e';
+	vector<DWORD> pidsLsass = GetPIDs(lsassNoStr);
+	if (pidsLsass.empty())
+		cout << "Not Found" << endl;
+	sort(pidsLsass.begin(), pidsLsass.end()); // In case there is several lsass.exe running (?) take the first one (based on PID)
+	pivotPID = pidsLsass[0];
+	if (!pivotPID)
+		cout << "Not Found" << endl;
+
+
+	if (SendProcessIDs(6216, pivotPID, csrss1, csrss2, (ULONG)GetCurrentProcessId(), 0)) // 396 & = Csrss's PIDs
 	{
 		cout << "Sent Data" << endl;
 	}
@@ -3940,11 +4057,13 @@ int main(int argc, char *argv[])
 	{
 		cout << "False" << endl;
 	}
+	
 	while (1)
 	{
-		AntiDebug();
+		
 		Speed_perf();
 		CheckAdmin();
+			
 		OverlayFinderParams params;
 		params.style = WS_VISIBLE;
 		params.styleEx = WS_EX_LAYERED | WS_EX_TRANSPARENT;
